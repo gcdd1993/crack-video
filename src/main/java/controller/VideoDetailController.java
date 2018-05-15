@@ -70,7 +70,7 @@ public class VideoDetailController implements Initializable {
                 this.setGraphic(null);
 
                 if (!empty) {
-                    Button detailBtn = new Button("解析播放");
+                    Button detailBtn = new Button("GO->");
                     this.setGraphic(detailBtn);
                     detailBtn.setOnMouseClicked((me) -> {
                         Episode episode = this.getTableView().getItems().get(this.getIndex());

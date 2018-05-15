@@ -32,11 +32,11 @@
             </HBox>
          </top>
          <center>
-            <TableView fx:id="detailTable" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <TableView fx:id="detailTable" prefHeight="200.0" prefWidth="579.0" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn fx:id="nameColumn" prefWidth="67.0" text="剧集" />
-                  <TableColumn fx:id="urlFromColumn" prefWidth="461.0" text="来源地址" />
-                  <TableColumn fx:id="playColumn" prefWidth="71.0" text="播放" />
+                  <TableColumn fx:id="urlFromColumn" prefWidth="458.0" text="来源地址" />
+                  <TableColumn fx:id="playColumn" prefWidth="74.0" text="解析播放" />
               </columns>
             </TableView>
          </center>

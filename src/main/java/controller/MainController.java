@@ -99,7 +99,7 @@ public class MainController implements Initializable {
 				this.setGraphic(null);
 
 				if (!empty) {
-					Button detailBtn = new Button("查看详情");
+					Button detailBtn = new Button("GO->");
 					this.setGraphic(detailBtn);
 					detailBtn.setOnMouseClicked((me) -> {
 						BaseVideo video = this.getTableView().getItems().get(this.getIndex());
