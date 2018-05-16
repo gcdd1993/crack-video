@@ -1,12 +1,17 @@
 package application;
 
+import com.jfoenix.controls.JFXDialog;
 import controller.MainController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import service.ConfigCache;
+
+import java.io.IOException;
 
 /**
  *
@@ -22,12 +27,13 @@ public class Main extends Application {
 	public static String IMAGES = "/img/";
 	
 	MainController object = new MainController();
+
 	static Stage stage;
 	
 	public static Scene sceneCopy;
 	
 	private static StackPane pane = new StackPane();
-	
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		
@@ -46,7 +52,8 @@ public class Main extends Application {
 		});
 		
 		scene.getStylesheets().add(getClass().getResource(CSS+"stylesheet.css").toExternalForm());
-		stage.setTitle("Jfx Browser");
+		stage.setResizable(false);
+		stage.setTitle("crack video v1.0.0");
 		stage.setScene(scene);
 		stage.show();
 		
@@ -83,9 +90,18 @@ public class Main extends Application {
 	 */
 	
 	public static void main(String[] args) {
-		//初始化
+		try {
+			ConfigCache.getInstance().init();
+		} catch (IOException e) {
+			System.out.println("config cache init error " + e.getMessage());
+		}
 		launch(args);
 		System.exit(1);
 	}
-	
+
+	public static void showDialog(String msg) {
+		JFXDialog dialog = new JFXDialog();
+		dialog.setContent(new Label("请至少启用一个VIP解析器!"));
+		dialog.show(pane);
+	}
 }

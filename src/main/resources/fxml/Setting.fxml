@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="357.0" prefWidth="569.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.SettingController">
+   <children>
+      <BorderPane prefHeight="357.0" prefWidth="569.0">
+         <center>
+            <TableView fx:id="vipResolverTableView" prefHeight="256.0" prefWidth="569.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn fx:id="nameCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="-1.0" resizable="false" sortable="false" text="名称" />
+                <TableColumn fx:id="urlCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="369.0" prefWidth="369.0" resizable="false" sortable="false" text="解析地址" />
+                  <TableColumn fx:id="delCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="50.0" sortable="false" text="删除" />
+                  <TableColumn fx:id="checkCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="50.0" prefWidth="50.0" resizable="false" sortable="false" text="启用" />
+              </columns>
+               <BorderPane.margin>
+                  <Insets top="5.0" />
+               </BorderPane.margin>
+            </TableView>
+         </center>
+         <bottom>
+            <GridPane prefHeight="30.0" prefWidth="532.0" BorderPane.alignment="CENTER">
+              <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="183.0" minWidth="10.0" prefWidth="76.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="255.0" minWidth="10.0" prefWidth="166.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="242.0" minWidth="10.0" prefWidth="80.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="242.0" minWidth="10.0" prefWidth="242.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField fx:id="vipName" prefHeight="23.0" prefWidth="155.0" GridPane.columnIndex="1">
+                     <GridPane.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <TextField fx:id="vipUrl" GridPane.columnIndex="3">
+                     <GridPane.margin>
+                        <Insets left="5.0" right="5.0" />
+                     </GridPane.margin>
+                  </TextField>
+                  <JFXButton onAction="#addRow" prefHeight="18.0" prefWidth="26.0" text="+" GridPane.columnIndex="4" />
+                  <Label text="名称：" />
+                  <Label prefHeight="15.0" prefWidth="86.0" text="解析地址：" GridPane.columnIndex="2" />
+               </children>
+            </GridPane>
+         </bottom>
+         <top>
+            <GridPane BorderPane.alignment="CENTER">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="解析器设置" />
+               </children>
+            </GridPane>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
