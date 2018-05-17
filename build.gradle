@@ -11,7 +11,9 @@ repositories {
     mavenCentral()
 }
 
-mainClassName = "application.Main"
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
@@ -22,4 +24,21 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.8.1'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.1'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.8.1'
+}
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.4"
+        classpath 'gradle.plugin.edu.sc.seis.gradle:launch4j:2.3.0'
+    }
+}
+apply plugin: 'com.github.johnrengelman.shadow'
+mainClassName = "application.Main"
+shadowJar {
+    baseName = 'crack-video'
 }
