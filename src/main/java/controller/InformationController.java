@@ -1,5 +1,6 @@
 package controller;
 
+import application.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.web.WebView;
@@ -19,6 +20,7 @@ public class InformationController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        infoWebView.getEngine().setUserStyleSheetLocation(getClass().getResource(Main.CSS + "jfoenix-components.css").toExternalForm());
         infoWebView.getEngine().load(getClass().getResource(HTML + "index.html").toExternalForm());
     }
 }

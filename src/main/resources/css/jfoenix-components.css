@@ -391,4 +391,9 @@
     -fx-shape: null;
 }
 
+body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
 
