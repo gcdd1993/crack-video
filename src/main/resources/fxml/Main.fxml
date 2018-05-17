@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -14,11 +15,11 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="rootBorderPane" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<BorderPane fx:id="rootBorderPane" prefHeight="400.0" prefWidth="700.0" styleClass="root" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <TableView fx:id="videoTableView" prefHeight="357.0" prefWidth="702.0" HBox.hgrow="SOMETIMES">
+            <TableView fx:id="videoTableView" prefHeight="357.0" prefWidth="702.0" stylesheets="@../css/jfoenix-components.css" HBox.hgrow="SOMETIMES">
               <columns>
                 <TableColumn fx:id="idColumn" maxWidth="1.7976931348623157E308" minWidth="75.0" prefWidth="-1.0" resizable="false" text="序号" />
                 <TableColumn fx:id="nameColumn" maxWidth="1.7976931348623157E308" minWidth="75.0" prefWidth="-1.0" resizable="false" text="名称" />
@@ -33,7 +34,7 @@
       </HBox>
    </center>
    <top>
-      <GridPane prefHeight="52.0" prefWidth="700.0" style="-fx-background-color: #ffffff;" BorderPane.alignment="CENTER">
+      <GridPane prefHeight="52.0" prefWidth="700.0" style="-fx-background-color: #ffffff;" styleClass="root" stylesheets="@../css/jfoenix-components.css" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="ALWAYS" maxWidth="393.0" minWidth="10.0" prefWidth="378.0" />
           <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" maxWidth="227.0" minWidth="10.0" prefWidth="116.0" />
@@ -52,10 +53,14 @@
                   <Font size="14.0" />
                </font>
             </JFXTextField>
-            <JFXButton fx:id="searchButton" onAction="#searchAction" prefHeight="23.0" prefWidth="56.0" ripplerFill="#3c7cea" style="-fx-background-color: #ffffff;" text="搜索" textFill="#1c0d68" GridPane.columnIndex="1" />
+            <JFXButton fx:id="searchButton" onAction="#searchAction" prefHeight="26.0" prefWidth="101.0" styleClass="button-raised" text="搜索" GridPane.columnIndex="1" />
             <JFXSpinner fx:id="searchSpinner" prefHeight="42.0" prefWidth="21.0" visible="false" GridPane.columnIndex="1" />
-            <JFXHamburger fx:id="hbm" onMouseClicked="#changeHbmState" GridPane.columnIndex="3" />
+            <JFXHamburger fx:id="hbm" alignment="CENTER" onMouseClicked="#changeHbmState" styleClass="jfx-hamburger" stylesheets="@../css/stylesheet.css" GridPane.columnIndex="3" />
          </children>
       </GridPane>
    </top>
+   <stylesheets>
+      <URL value="@../css/stylesheet.css" />
+      <URL value="@../css/jfoenix-components.css" />
+   </stylesheets>
 </BorderPane>

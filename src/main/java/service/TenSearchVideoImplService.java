@@ -25,14 +25,13 @@ public class TenSearchVideoImplService implements ISearchVideoService {
     public List<BaseVideo> search(String key) {
         try {
             Document document = Jsoup.connect(String.format(BASE_URL, key)).get();
-            Elements infos = document.select("body > div.search_container > div.wrapper > div.wrapper_main > div");
-            List<BaseVideo> baseVideoList = infos.stream().map(info -> {
+            Elements infos = document.select("body > div.search_container > div.wrapper > div.wrapper_main > div[data-index]");
+            return infos.stream().map(info -> {
                 Elements infoList = info.select("div._infos");
                 if(infoList == null || infoList.isEmpty()) {
                     return null;
                 }
                 Element detail = infoList.get(0);
-//                log.debug("detail : {}", detail);
                 String url = detail.select("h2 > a").attr("href");
                 String name = StringUtils.join(detail.select("h2 > a > em").text(),
                         detail.select("h2 > a > span.sub").text(),
@@ -40,17 +39,17 @@ public class TenSearchVideoImplService implements ISearchVideoService {
                 String description = detail.select("div > div.info_item.info_item_desc > span.desc_text").text();
                 String imageUrl = StringUtils.join("http:",detail.select("a > img").attr("src"));
                 //剧集
-                Elements elements = document.select("div._playlist > div > div > div > div a");
+                Elements elements = info.select("div._playlist > div > div > div > div a");
                 List<Episode> episodes = elements.stream().map(element ->
                         new Episode(element.text(), element.attr("href")))
                         .filter(episode -> !episode.getUrl().contains("javascript")).collect(Collectors.toList());
-                BaseVideo baseVideo = new BaseVideo(name, url, imageUrl, description,"腾讯视频", episodes);
-//                log.info("video : {}", baseVideo);
-                return baseVideo;
+                if(episodes.isEmpty()) {
+                    episodes.add(new Episode(name,url));
+                }
+                return new BaseVideo(name, url, imageUrl, description,"腾讯视频", episodes);
             }).filter(Objects::nonNull).collect(Collectors.toList());
-            return baseVideoList;
         } catch (IOException e) {
-//            log.error("tencent search error ",e);
+            System.out.println("ten service error " + e.getMessage());
             return null;
         }
     }

@@ -12,7 +12,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -123,7 +122,8 @@ public class MainController implements Initializable {
 				this.setGraphic(null);
 
 				if (!empty) {
-					Button detailBtn = new Button("GO->");
+					JFXButton detailBtn = new JFXButton("GO->");
+					detailBtn.setId("col-button");
 					this.setGraphic(detailBtn);
 					detailBtn.setOnMouseClicked((me) -> {
 						BaseVideo video = this.getTableView().getItems().get(this.getIndex());
@@ -156,11 +156,10 @@ public class MainController implements Initializable {
 				)
 		);
 		Stage stage = new Stage(StageStyle.DECORATED);
-		stage.setScene(
-				new Scene(
-						(Pane) loader.load()
-				)
+		Scene scene = new Scene(
+				(Pane) loader.load()
 		);
+		stage.setScene(scene);
 		VideoDetailController controller =
 				loader.getController();
 		controller.initData(video);

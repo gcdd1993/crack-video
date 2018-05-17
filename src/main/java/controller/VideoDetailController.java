@@ -1,12 +1,14 @@
 package controller;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTextArea;
+import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.*;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -36,13 +38,13 @@ public class VideoDetailController implements Initializable {
     private ImageView imageUrl;
 
     @FXML
-    private TextField nameText;
+    private JFXTextArea descriptionText;
 
     @FXML
-    private TextField fromText;
+    private JFXTextField nameText;
 
     @FXML
-    private TextArea descriptionText;
+    private JFXTextField fromText;
 
     @FXML
     private TableView<Episode> detailTable;
@@ -88,7 +90,8 @@ public class VideoDetailController implements Initializable {
                 this.setGraphic(null);
 
                 if (!empty) {
-                    Button detailBtn = new Button("GO->");
+                    JFXButton detailBtn = new JFXButton("GO->");
+                    detailBtn.setId("col-button");
                     this.setGraphic(detailBtn);
                     detailBtn.setOnMouseClicked((me) -> {
                         Episode episode = this.getTableView().getItems().get(this.getIndex());

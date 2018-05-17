@@ -74,11 +74,11 @@ public class Hamburger {
 				)
 		);
 		Stage stage = new Stage(StageStyle.DECORATED);
-		stage.setScene(
-				new Scene(
-						(Pane) loader.load()
-				)
+		Scene scene = new Scene(
+				(Pane) loader.load()
 		);
+		scene.getStylesheets().add(getClass().getResource(Main.CSS + "jfoenix-components.css").toExternalForm());
+		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.show();
 		return stage;

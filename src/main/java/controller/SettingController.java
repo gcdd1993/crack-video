@@ -1,5 +1,6 @@
 package controller;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -80,7 +81,8 @@ public class SettingController implements Initializable {
                 this.setGraphic(null);
 
                 if (!empty) {
-                    Button delBtn = new Button("删除");
+                    JFXButton delBtn = new JFXButton("删除");
+                    delBtn.setId("col-button");
                     this.setGraphic(delBtn);
                     delBtn.setOnMouseClicked((me) -> {
                         VipResolver clickVip = this.getTableView().getItems().get(this.getIndex());

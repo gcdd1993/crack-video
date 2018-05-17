@@ -51,7 +51,6 @@ public class Main extends Application {
 			//启动事件
 		});
 		
-		scene.getStylesheets().add(getClass().getResource(CSS+"stylesheet.css").toExternalForm());
 		stage.setResizable(false);
 		stage.setTitle("crack video v1.0.0");
 		stage.setScene(scene);

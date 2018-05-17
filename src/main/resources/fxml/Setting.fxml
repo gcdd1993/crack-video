@@ -16,7 +16,7 @@
    <children>
       <BorderPane prefHeight="357.0" prefWidth="569.0">
          <center>
-            <TableView fx:id="vipResolverTableView" prefHeight="256.0" prefWidth="569.0" BorderPane.alignment="CENTER">
+            <TableView id="my-table" fx:id="vipResolverTableView" prefHeight="256.0" prefWidth="569.0" stylesheets="@../css/stylesheet.css" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn fx:id="nameCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="100.0" prefWidth="-1.0" resizable="false" sortable="false" text="名称" />
                 <TableColumn fx:id="urlCol" editable="false" maxWidth="1.7976931348623157E308" minWidth="369.0" prefWidth="369.0" resizable="false" sortable="false" text="解析地址" />
