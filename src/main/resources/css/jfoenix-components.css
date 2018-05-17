@@ -47,11 +47,7 @@
 
 .jfx-text-area, .text-area {
     -fx-font-weight: BOLD;
-}
-
-.jfx-text-field:error, .jfx-password-field:error, .jfx-text-area:error {
-    -jfx-focus-color: #D34336;
-    -jfx-unfocus-color: #D34336;
+    -fx-alignment: center
 }
 
 .jfx-text-field .error-label, .jfx-password-field .error-label, .jfx-text-area .error-label {
@@ -367,15 +363,32 @@
     -fx-alignment: center;
 }
 
-#studentTableView{
+#my-table{
     -fx-table-cell-border-color:transparent;
     -fx-border-color: white;
-    -fx-alignment: center-left;
+    -fx-alignment: center;
 }
 
 /*设置每一列内容居中*/
 #my-table .table-column{
-    -fx-alignment: center-left;
+    -fx-alignment: center;
+}
+
+.table-view *.scroll-bar *.increment-button,
+.table-view *.scroll-bar *.decrement-button {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+}
+
+.table-view *.scroll-bar *.increment-arrow,
+.table-view *.scroll-bar *.decrement-arrow {
+    -fx-background-color: null;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-shape: null;
 }
 
 
