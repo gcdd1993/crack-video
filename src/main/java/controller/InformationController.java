@@ -19,6 +19,6 @@ public class InformationController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        infoWebView.getEngine().load(getClass().getResource(HTML + "info.html").toExternalForm());
+        infoWebView.getEngine().load(getClass().getResource(HTML + "index.html").toExternalForm());
     }
 }
