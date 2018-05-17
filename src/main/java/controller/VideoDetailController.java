@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
 /**
  * Created by gaochen on 2018/5/15.
  */
-public class VideoDetailController implements Initializable {
+public class VideoDetailController implements Initializable,IWithValueInit<BaseVideo> {
 
     @FXML
     private AnchorPane videoDetailPane;
@@ -67,6 +67,7 @@ public class VideoDetailController implements Initializable {
 //        playColumn.prefWidthProperty().bind(detailTable.widthProperty().multiply(0.2));
     }
 
+    @Override
     public void initData(BaseVideo video) {
         System.out.println("video : " + video);
         //image

@@ -9,25 +9,23 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Scene;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import lombok.Data;
 import model.BaseVideo;
 import service.SearchServiceHandler;
 import userInterface.Hamburger;
+import utils.GUIUtil;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -150,22 +148,7 @@ public class MainController implements Initializable {
 	}
 
 	private Stage showVideoDetailDialog(BaseVideo video) throws IOException {
-		FXMLLoader loader = new FXMLLoader(
-				getClass().getResource(
-						Main.FXMLS+"VideoDetail.fxml"
-				)
-		);
-		Stage stage = new Stage(StageStyle.DECORATED);
-		Scene scene = new Scene(
-				(Pane) loader.load()
-		);
-		stage.setScene(scene);
-		VideoDetailController controller =
-				loader.getController();
-		controller.initData(video);
-		stage.setResizable(false);
-		stage.show();
-		return stage;
+        return GUIUtil.showDialog(Main.FXMLS+"VideoDetail.fxml",Main.CSS + "jfoenix-components.css",video.getName(),Optional.of(video));
 	}
 
 	/**

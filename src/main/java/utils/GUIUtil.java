@@ -1,7 +1,16 @@
 package utils;
 
+import controller.IWithValueInit;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
+import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Created by gaochen on 2018/5/16.
@@ -20,5 +29,24 @@ public class GUIUtil {
             information.showAndWait(); //显示弹窗，同时后续代码等挂起
         });
         information.show();
+    }
+
+    public static<T> Stage showDialog(String fxmlUri,String cssUri,String title,Optional<T> data) throws IOException {
+        FXMLLoader loader = new FXMLLoader(GUIUtil.class.getResource(fxmlUri));
+        Stage stage = new Stage(StageStyle.DECORATED);
+        Scene scene = new Scene(
+                (Pane) loader.load()
+        );
+        scene.getStylesheets().add(GUIUtil.class.getResource(cssUri).toExternalForm());
+        stage.setTitle(title);
+        stage.setScene(scene);
+        data.ifPresent(d -> {
+            IWithValueInit controller =
+                    loader.getController();
+            controller.initData(d);
+        });
+        stage.setResizable(false);
+        stage.show();
+        return stage;
     }
 }
