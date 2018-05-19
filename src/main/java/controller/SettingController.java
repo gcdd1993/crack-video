@@ -7,8 +7,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.BorderPane;
 import model.VipResolver;
 import service.ConfigCache;
 import utils.GUIUtil;
@@ -22,6 +26,9 @@ import java.util.ResourceBundle;
  * Created by gaochen on 2018/5/16.
  */
 public class SettingController implements Initializable {
+
+    @FXML
+    private BorderPane settingPane;
 
     @FXML
     private TableView<VipResolver> vipResolverTableView;
@@ -46,6 +53,7 @@ public class SettingController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        GUIUtil.setRandomColor(settingPane);
         nameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         nameCol.setCellFactory(TextFieldTableCell.<VipResolver>forTableColumn());
 
@@ -82,6 +90,7 @@ public class SettingController implements Initializable {
 
                 if (!empty) {
                     JFXButton delBtn = new JFXButton("删除");
+                    GUIUtil.setBtnStyle(delBtn);
                     delBtn.setId("col-button");
                     this.setGraphic(delBtn);
                     delBtn.setOnMouseClicked((me) -> {

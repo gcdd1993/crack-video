@@ -51,7 +51,6 @@ public class Main extends Application {
 			//启动事件
 		});
 		
-		stage.setResizable(false);
 		stage.setTitle("crack video v1.0.0");
 		stage.setScene(scene);
 		stage.show();

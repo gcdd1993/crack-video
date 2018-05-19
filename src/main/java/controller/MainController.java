@@ -98,6 +98,7 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// cell factory to display the index:
+		GUIUtil.setRandomColor(rootBorderPane);
 		idColumn.setCellFactory(col -> {
 			TableCell<BaseVideo, Void> cell = new TableCell<>();
 			cell.textProperty().bind(Bindings.createStringBinding(() -> {
@@ -121,6 +122,7 @@ public class MainController implements Initializable {
 
 				if (!empty) {
 					JFXButton detailBtn = new JFXButton("GO->");
+					GUIUtil.setBtnStyle(detailBtn);
 					detailBtn.setId("col-button");
 					this.setGraphic(detailBtn);
 					detailBtn.setOnMouseClicked((me) -> {
@@ -136,6 +138,9 @@ public class MainController implements Initializable {
 
 		});
 		descriptionColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.7));
+		idColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.1));
+		nameColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.1));
+		showDetailColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.1));
 
 		hamburger.getHamburger(hbm,rootBorderPane);
 
@@ -148,7 +153,7 @@ public class MainController implements Initializable {
 	}
 
 	private Stage showVideoDetailDialog(BaseVideo video) throws IOException {
-        return GUIUtil.showDialog(Main.FXMLS+"VideoDetail.fxml",Main.CSS + "jfoenix-components.css",video.getName(),Optional.of(video));
+        return GUIUtil.showDialog(Main.FXMLS+"VideoDetail.fxml",Main.CSS + "jfoenix-components.css","(" + video.getFrom() + ") " + video.getName(),Optional.of(video));
 	}
 
 	/**

@@ -2,7 +2,6 @@ package controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
-import com.jfoenix.controls.JFXTextField;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,7 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import model.BaseVideo;
 import model.Episode;
 import model.VipResolver;
@@ -32,19 +31,13 @@ import java.util.ResourceBundle;
 public class VideoDetailController implements Initializable,IWithValueInit<BaseVideo> {
 
     @FXML
-    private AnchorPane videoDetailPane;
+    private BorderPane videoDetailPane;
 
     @FXML
     private ImageView imageUrl;
 
     @FXML
     private JFXTextArea descriptionText;
-
-    @FXML
-    private JFXTextField nameText;
-
-    @FXML
-    private JFXTextField fromText;
 
     @FXML
     private TableView<Episode> detailTable;
@@ -60,11 +53,12 @@ public class VideoDetailController implements Initializable,IWithValueInit<BaseV
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        GUIUtil.setRandomColor(videoDetailPane);
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         urlFromColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUrl()));
-//        nameColumn.prefWidthProperty().bind(detailTable.widthProperty().multiply(0.2));
-//        urlFromColumn.prefWidthProperty().bind(detailTable.widthProperty().multiply(0.8));
-//        playColumn.prefWidthProperty().bind(detailTable.widthProperty().multiply(0.2));
+        nameColumn.prefWidthProperty().bind(detailTable.widthProperty().multiply(0.1));
+        urlFromColumn.prefWidthProperty().bind(detailTable.widthProperty().multiply(0.8));
+        playColumn.prefWidthProperty().bind(detailTable.widthProperty().multiply(0.1));
     }
 
     @Override
@@ -78,9 +72,8 @@ public class VideoDetailController implements Initializable,IWithValueInit<BaseV
             System.out.println("error");
         }
         //text
-        nameText.setText(video.getName());
-        fromText.setText(video.getFrom());
         descriptionText.setText(video.getDescription());
+        descriptionText.setWrapText(true);
         detailTable.getItems().setAll(video.getEpisodes());
 
         playColumn.setCellFactory(col -> new TableCell<Episode, String>() {
@@ -93,6 +86,7 @@ public class VideoDetailController implements Initializable,IWithValueInit<BaseV
                 if (!empty) {
                     JFXButton detailBtn = new JFXButton("GO->");
                     detailBtn.setId("col-button");
+                    GUIUtil.setBtnStyle(detailBtn);
                     this.setGraphic(detailBtn);
                     detailBtn.setOnMouseClicked((me) -> {
                         Episode episode = this.getTableView().getItems().get(this.getIndex());
