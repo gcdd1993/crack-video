@@ -50,7 +50,7 @@
    <center>
       <TableView id="my-table" fx:id="videoTableView" prefHeight="357.0" prefWidth="702.0" stylesheets="@../css/jfoenix-components.css" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="idColumn" maxWidth="1.7976931348623157E308" minWidth="75.0" prefWidth="-1.0" resizable="false" text="序号" />
+          <TableColumn fx:id="fromColumn" maxWidth="1.7976931348623157E308" minWidth="75.0" prefWidth="-1.0" resizable="false" text="来源" />
           <TableColumn fx:id="nameColumn" maxWidth="1.7976931348623157E308" minWidth="75.0" prefWidth="-1.0" resizable="false" text="名称" />
             <TableColumn fx:id="descriptionColumn" maxWidth="1.7976931348623157E308" minWidth="485.0" prefWidth="-1.0" text="简介" />
             <TableColumn fx:id="showDetailColumn" maxWidth="1.7976931348623157E308" minWidth="64.0" prefWidth="-1.0" resizable="false" text="详情" />

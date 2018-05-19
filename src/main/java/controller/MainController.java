@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,7 +43,7 @@ public class MainController implements Initializable {
 	private TableView<BaseVideo> videoTableView;
 
 	@FXML
-	private TableColumn<BaseVideo, Void> idColumn;
+	private TableColumn<BaseVideo, String> fromColumn;
 
 	@FXML
 	private TableColumn<BaseVideo, String> nameColumn;
@@ -99,17 +98,7 @@ public class MainController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		// cell factory to display the index:
 		GUIUtil.setRandomColor(rootBorderPane);
-		idColumn.setCellFactory(col -> {
-			TableCell<BaseVideo, Void> cell = new TableCell<>();
-			cell.textProperty().bind(Bindings.createStringBinding(() -> {
-				if (cell.isEmpty()) {
-					return null ;
-				} else {
-					return Integer.toString(cell.getIndex() + 1);
-				}
-			}, cell.emptyProperty(), cell.indexProperty()));
-			return cell;
-		});
+		fromColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFrom()));
 		nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
 		descriptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
 
@@ -138,7 +127,7 @@ public class MainController implements Initializable {
 
 		});
 		descriptionColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.7));
-		idColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.1));
+		fromColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.1));
 		nameColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.1));
 		showDetailColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.1));
 
