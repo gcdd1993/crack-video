@@ -1,5 +1,6 @@
 package service.iqiyi;
 
+import constant.VIPResolverTypeEnum;
 import model.BaseVideo;
 import model.Episode;
 import org.jsoup.Jsoup;
@@ -23,7 +24,6 @@ public class IqiyiSearchVideoServiceImpl implements ISearchVideoService {
     public List<BaseVideo> search(String key) {
         try {
             Document document = Jsoup.connect(String.format(BASE_URL, key)).get();
-            System.out.println(document.html());
             Elements infos = document.select("body > div.page-search > div.container.clearfix > div.search_result_main > div > div.mod_search_result > div.mod_result > ul.mod_result_list > li.list_item");
             return infos.stream().map(info -> {
                 String url = URLUtils.complementUrl(info.select("a").attr("href"),false);
@@ -40,7 +40,7 @@ public class IqiyiSearchVideoServiceImpl implements ISearchVideoService {
                 if(episodes.isEmpty()) {
                     episodes.add(new Episode(name,url));
                 }
-                return new BaseVideo(name, url, imageUrl, description,"爱奇艺", episodes);
+                return new BaseVideo(name, url, imageUrl, description,VIPResolverTypeEnum.IQIYI.getDescription(), episodes);
             }).collect(Collectors.toList());
         } catch (IOException e) {
             System.out.println("ten service error " + e.getMessage());

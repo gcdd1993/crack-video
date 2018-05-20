@@ -1,5 +1,6 @@
 package service.youku;
 
+import constant.VIPResolverTypeEnum;
 import model.BaseVideo;
 import model.Episode;
 import org.jsoup.Jsoup;
@@ -25,7 +26,6 @@ public class YouKuSearchVideoServiceImpl implements ISearchVideoService {
     public List<BaseVideo> search(String key) {
         try {
             Document document = Jsoup.connect(String.format(BASE_URL, key)).get();
-            System.out.println(document.html());
             //body > div.sk_container > div.sk-express > div > div:nth-child(1) > div
             Elements infos = document.select("body > div.sk_container > div.sk-express > div.DIR > div.s_dir > div");
             //div.s_info > div > div > div > p > span
@@ -47,7 +47,7 @@ public class YouKuSearchVideoServiceImpl implements ISearchVideoService {
                 if(episodes.isEmpty()) {
                     episodes.add(new Episode(name,url));
                 }
-                return new BaseVideo(name, url, imageUrl, description,"优酷", episodes);
+                return new BaseVideo(name, url, imageUrl, description,VIPResolverTypeEnum.YOUKU.getDescription(), episodes);
             }).filter(Objects::nonNull).collect(Collectors.toList());
         } catch (IOException e) {
             System.out.println("ten service error " + e.getMessage());

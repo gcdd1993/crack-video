@@ -3,6 +3,7 @@ package service.tencent;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import constant.VIPResolverTypeEnum;
 import model.BaseVideo;
 import model.Episode;
 import org.apache.commons.lang3.StringUtils;
@@ -77,7 +78,7 @@ public class TenSearchVideoServiceImpl implements ISearchVideoService {
                 if(episodes.isEmpty()) {
                     episodes.add(new Episode(name,url));
                 }
-                return new BaseVideo(name, url, imageUrl, description,"腾讯视频", episodes);
+                return new BaseVideo(name, url, imageUrl, description,VIPResolverTypeEnum.TENCENT.getDescription(), episodes);
             }).filter(Objects::nonNull).collect(Collectors.toList());
         } catch (IOException e) {
             System.out.println("ten service error " + e.getMessage());

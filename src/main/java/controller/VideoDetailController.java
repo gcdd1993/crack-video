@@ -96,7 +96,7 @@ public class VideoDetailController implements Initializable,IWithValueInit<BaseV
                         Episode episode = this.getTableView().getItems().get(this.getIndex());
                         System.out.println("解析播放");
                         try {
-                            playVideo(episode);
+                            playVideo(episode,video.getFrom());
                         } catch (IOException | URISyntaxException e) {
                             e.printStackTrace();
                         }
@@ -107,8 +107,8 @@ public class VideoDetailController implements Initializable,IWithValueInit<BaseV
         });
     }
 
-    private void playVideo(Episode episode) throws IOException, URISyntaxException {
-        Optional<VipResolver> vipResolver = ConfigCache.getInstance().get();
+    private void playVideo(Episode episode,String from) throws IOException, URISyntaxException {
+        Optional<VipResolver> vipResolver = ConfigCache.getInstance().get(from);
         if(vipResolver.isPresent()) {
             Desktop.getDesktop().browse(new URI(vipResolver.get().getUrl() + episode.getUrl()));
         }else {
