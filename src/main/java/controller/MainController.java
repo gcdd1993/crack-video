@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -44,7 +43,7 @@ public class MainController implements Initializable {
 	private TableView<BaseVideo> videoTableView;
 
 	@FXML
-	private TableColumn<BaseVideo, Void> idColumn;
+	private TableColumn<BaseVideo, String> fromColumn;
 
 	@FXML
 	private TableColumn<BaseVideo, String> nameColumn;
@@ -98,19 +97,14 @@ public class MainController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// cell factory to display the index:
-		idColumn.setCellFactory(col -> {
-			TableCell<BaseVideo, Void> cell = new TableCell<>();
-			cell.textProperty().bind(Bindings.createStringBinding(() -> {
-				if (cell.isEmpty()) {
-					return null ;
-				} else {
-					return Integer.toString(cell.getIndex() + 1);
-				}
-			}, cell.emptyProperty(), cell.indexProperty()));
-			return cell;
-		});
+		GUIUtil.setRandomColor(rootBorderPane);
+		fromColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getFrom()));
 		nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
 		descriptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
+
+		nameColumn.setCellFactory(col -> new TipTableCell<BaseVideo>());
+		fromColumn.setCellFactory(col -> new TipTableCell<BaseVideo>());
+		descriptionColumn.setCellFactory(col -> new TipTableCell<BaseVideo>());
 
 		showDetailColumn.setCellFactory(col -> new TableCell<BaseVideo, String>() {
 			@Override
@@ -118,9 +112,9 @@ public class MainController implements Initializable {
 				super.updateItem(item, empty);
 				this.setText(null);
 				this.setGraphic(null);
-
 				if (!empty) {
 					JFXButton detailBtn = new JFXButton("GO->");
+					GUIUtil.setBtnStyle(detailBtn);
 					detailBtn.setId("col-button");
 					this.setGraphic(detailBtn);
 					detailBtn.setOnMouseClicked((me) -> {
@@ -136,6 +130,9 @@ public class MainController implements Initializable {
 
 		});
 		descriptionColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.7));
+		fromColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.1));
+		nameColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.1));
+		showDetailColumn.prefWidthProperty().bind(videoTableView.widthProperty().multiply(0.1));
 
 		hamburger.getHamburger(hbm,rootBorderPane);
 
@@ -148,7 +145,7 @@ public class MainController implements Initializable {
 	}
 
 	private Stage showVideoDetailDialog(BaseVideo video) throws IOException {
-        return GUIUtil.showDialog(Main.FXMLS+"VideoDetail.fxml",Main.CSS + "jfoenix-components.css",video.getName(),Optional.of(video));
+        return GUIUtil.showDialog(Main.FXMLS+"VideoDetail.fxml",Main.CSS + "jfoenix-components.css","(" + video.getFrom() + ") " + video.getName(),Optional.of(video));
 	}
 
 	/**
@@ -160,4 +157,5 @@ public class MainController implements Initializable {
 		searchSpinner.setVisible(isVisible);
 		searchButton.setVisible(!isVisible);
 	}
+
 }

@@ -1,6 +1,8 @@
 package service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import constant.VIPResolverTypeEnum;
+import lombok.NonNull;
 import model.VipResolver;
 import utils.GUIUtil;
 
@@ -75,7 +77,11 @@ public class ConfigCache {
      * 随机获取一个VIP解析器
      * @return
      */
-    public Optional<VipResolver> get() {
-        return vipResolverList.stream().filter(VipResolver::isChecked).findAny();
+    public Optional<VipResolver> get(@NonNull String from) {
+        return vipResolverList.stream()
+                .filter(VipResolver::isChecked)
+                .filter(vipResolver -> from.equals(vipResolver.getType().getDescription()) ||
+                        vipResolver.getType().equals(VIPResolverTypeEnum.ALL))
+                .max(Comparator.comparing(VipResolver::getType));
     }
 }

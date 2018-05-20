@@ -1,13 +1,14 @@
 package service;
 
 import model.BaseVideo;
+import service.iqiyi.IqiyiSearchVideoServiceImpl;
+import service.tencent.TenSearchVideoServiceImpl;
+import service.youku.YouKuSearchVideoServiceImpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by gaochen on 2018/5/15.
@@ -20,7 +21,9 @@ public class SearchServiceHandler implements ISearchVideoService {
 
     static {
         //todo
-        searchVideoServiceList.add(new TenSearchVideoImplService());
+        searchVideoServiceList.add(new TenSearchVideoServiceImpl());
+        searchVideoServiceList.add(new YouKuSearchVideoServiceImpl());
+        searchVideoServiceList.add(new IqiyiSearchVideoServiceImpl());
     }
 
     public static SearchServiceHandler getInstance() {

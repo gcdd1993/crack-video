@@ -1,5 +1,6 @@
 package model;
 
+import constant.VIPResolverTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -14,5 +15,7 @@ public class VipResolver {
     private String url;
 
     private boolean checked;
+
+    private VIPResolverTypeEnum type;
 
 }

@@ -1,7 +1,3 @@
-.root {
-    -fx-background-color: rgb(77, 102, 204);
-}
-
 /* Burgers Demo */
 
 .jfx-hamburger {
@@ -389,6 +385,11 @@
     -fx-background-insets: 0;
     -fx-padding: 0;
     -fx-shape: null;
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
 
