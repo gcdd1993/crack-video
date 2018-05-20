@@ -1,7 +1,9 @@
 package model;
 
+import constant.VideoTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
  * 视频信息基类
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 @Data
 public class BaseVideo {
@@ -24,6 +27,8 @@ public class BaseVideo {
     private String description;
 
     private String from;
+
+    private VideoTypeEnum type;
 
     private List<Episode> episodes;
 }

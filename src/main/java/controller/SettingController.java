@@ -3,23 +3,25 @@ package controller;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXToggleButton;
-import constant.VIPResolverTypeEnum;
+import constant.VipResolverTypeEnum;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.BorderPane;
 import model.VipResolver;
-import service.ConfigCache;
+import service.ConfigService;
 import utils.GUIUtil;
 import utils.VaildateUtil;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -66,13 +68,13 @@ public class SettingController implements Initializable {
         urlCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUrl()));
         urlCol.setCellFactory(TextFieldTableCell.<VipResolver>forTableColumn());
 
-        typeCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType().getDescription()));
+        typeCol.setCellValueFactory(cellData -> new SimpleStringProperty(VipResolverTypeEnum.valueOf(cellData.getValue().getType()).getDescription()));
 
         nameCol.setCellFactory(col -> new TipTableCell<VipResolver>());
         urlCol.setCellFactory(col -> new TipTableCell<VipResolver>());
         typeCol.setCellFactory(col -> new TipTableCell<VipResolver>());
 
-        checkCol.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isChecked()));
+        checkCol.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().getChecked()));
         checkCol.setCellFactory(col -> new TableCell<VipResolver, Boolean>() {
             @Override
             public void updateItem(Boolean item, boolean empty) {
@@ -86,8 +88,9 @@ public class SettingController implements Initializable {
                     toggleButton.setSelected(item);
                     this.setGraphic(toggleButton);
                     toggleButton.setOnMouseClicked((me) -> {
-                        this.getTableView().getItems().get(this.getIndex()).setChecked(toggleButton.isSelected());
-                        refresh();
+                        VipResolver selected = this.getTableView().getItems().get(this.getIndex());
+                        selected.setChecked(toggleButton.isSelected());
+                        ConfigService.getInstance().update(selected);
                     });
                 }
             }
@@ -108,19 +111,14 @@ public class SettingController implements Initializable {
                     delBtn.setOnMouseClicked((me) -> {
                         VipResolver clickVip = this.getTableView().getItems().get(this.getIndex());
                         vipResolverTableView.getItems().remove(clickVip);
-                        refresh();
+                        ConfigService.getInstance().delete(clickVip.getId());
                     });
                 }
             }
         });
-        vipResolverTableView.getItems().addAll(ConfigCache.getInstance().listVipResolver());
-        vipType.setItems(FXCollections.observableArrayList(VIPResolverTypeEnum.list()));
+        vipResolverTableView.getItems().addAll(ConfigService.getInstance().list());
+        vipType.setItems(FXCollections.observableArrayList(VipResolverTypeEnum.list()));
         vipType.getSelectionModel().select(0);
-    }
-
-    private void refresh() {
-        List<VipResolver> vipResolvers = vipResolverTableView.getItems();
-        ConfigCache.getInstance().refresh(vipResolvers);
     }
 
     @FXML
@@ -131,7 +129,7 @@ public class SettingController implements Initializable {
         if(vipName == null || vipUrl == null || vipName.isEmpty() || vipUrl.isEmpty()) {
             return;
         }
-        VipResolver vipResolver = new VipResolver(vipName,vipUrl,false,VIPResolverTypeEnum.typeOf(vipType.getSelectionModel().getSelectedItem()));
+        VipResolver vipResolver = new VipResolver(null,vipName,vipUrl,false,VipResolverTypeEnum.typeOf(vipType.getSelectionModel().getSelectedItem()).toInt());
         if(vipResolverTableView.getItems().contains(vipResolver)) {
             return;
         }

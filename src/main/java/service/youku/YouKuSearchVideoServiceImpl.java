@@ -1,6 +1,7 @@
 package service.youku;
 
-import constant.VIPResolverTypeEnum;
+import constant.VideoTypeEnum;
+import constant.VipResolverTypeEnum;
 import model.BaseVideo;
 import model.Episode;
 import org.jsoup.Jsoup;
@@ -26,9 +27,7 @@ public class YouKuSearchVideoServiceImpl implements ISearchVideoService {
     public List<BaseVideo> search(String key) {
         try {
             Document document = Jsoup.connect(String.format(BASE_URL, key)).get();
-            //body > div.sk_container > div.sk-express > div > div:nth-child(1) > div
             Elements infos = document.select("body > div.sk_container > div.sk-express > div.DIR > div.s_dir > div");
-            //div.s_info > div > div > div > p > span
             return infos.stream().map(info -> {
                 Elements infoList = info.select("div.s_inform.s_madeform > div.s_detail");
                 if(infoList == null || infoList.isEmpty()) {
@@ -39,15 +38,23 @@ public class YouKuSearchVideoServiceImpl implements ISearchVideoService {
                 String name = detail.select("div.s_base > h2 > a:nth-child(1)").attr("_log_title");
                 String description = detail.select("div.s_info > div > div > div > p > span").text();
                 String imageUrl = URLUtils.complementUrl(info.select("div.s_poster > div.s_thumb > div.s_target > img").attr("src"),false);
+                //div.s_base > span.base_type
+                VideoTypeEnum type = VideoTypeEnum.typeOf(detail.select("div.s_base > span.base_type").text());
                 //剧集
                 Elements elements = info.select("div.s_inform.s_madeform > div.s_detail > div.s_items.site14.lang0 > ul.clearfix > li > a");
                 List<Episode> episodes = elements.stream().map(element ->
-                        new Episode(element.text(), URLUtils.complementUrl(element.attr("href"),false)))
+                        new Episode(null,element.text(), URLUtils.complementUrl(element.attr("href"),false),null))
                         .filter(episode -> !episode.getUrl().contains("javascript")).collect(Collectors.toList());
                 if(episodes.isEmpty()) {
-                    episodes.add(new Episode(name,url));
+                    episodes.add(new Episode(null,name,url,null));
                 }
-                return new BaseVideo(name, url, imageUrl, description,VIPResolverTypeEnum.YOUKU.getDescription(), episodes);
+                return new BaseVideo(name,
+                        url,
+                        imageUrl,
+                        description,
+                        VipResolverTypeEnum.YOUKU.getDescription(),
+                        type,
+                        episodes);
             }).filter(Objects::nonNull).collect(Collectors.toList());
         } catch (IOException e) {
             System.out.println("ten service error " + e.getMessage());

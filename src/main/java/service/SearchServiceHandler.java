@@ -1,41 +1,51 @@
 package service;
 
+import constant.VideoTypeEnum;
+import constant.VipResolverTypeEnum;
 import model.BaseVideo;
 import service.iqiyi.IqiyiSearchVideoServiceImpl;
+import service.mgtv.MGTVSearchVideoServiceImpl;
 import service.tencent.TenSearchVideoServiceImpl;
 import service.youku.YouKuSearchVideoServiceImpl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
  * Created by gaochen on 2018/5/15.
  */
-public class SearchServiceHandler implements ISearchVideoService {
+public class SearchServiceHandler {
 
     private static SearchServiceHandler searchServiceHandler = new SearchServiceHandler();
 
-    private static List<ISearchVideoService> searchVideoServiceList = new ArrayList<>();
+    private static ConcurrentHashMap<String,ISearchVideoService> searchVideoServiceMap = new ConcurrentHashMap<>();
 
     static {
         //todo
-        searchVideoServiceList.add(new TenSearchVideoServiceImpl());
-        searchVideoServiceList.add(new YouKuSearchVideoServiceImpl());
-        searchVideoServiceList.add(new IqiyiSearchVideoServiceImpl());
+        searchVideoServiceMap.put(VipResolverTypeEnum.TENCENT.getDescription(),new TenSearchVideoServiceImpl());
+        searchVideoServiceMap.put(VipResolverTypeEnum.YOUKU.getDescription(),new YouKuSearchVideoServiceImpl());
+        searchVideoServiceMap.put(VipResolverTypeEnum.IQIYI.getDescription(),new IqiyiSearchVideoServiceImpl());
+        searchVideoServiceMap.put(VipResolverTypeEnum.MGTV.getDescription(),new MGTVSearchVideoServiceImpl());
     }
 
     public static SearchServiceHandler getInstance() {
         return searchServiceHandler;
     }
 
-    @Override
-    public List<BaseVideo> search(String key) {
-        return searchVideoServiceList.stream()
-                .map(service -> service.search(key))
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
+    public List<BaseVideo> search(List<String> videoWebs,String key) {
+        List<BaseVideo> result = new ArrayList<>();
+        searchVideoServiceMap.forEach((k,v) -> {
+            if(videoWebs.contains(k)) {
+                result.addAll(v.search(key));
+            }
+        });
+        return filter(result);
+    }
+
+    private List<BaseVideo> filter(List<BaseVideo> videos) {
+        return videos.stream().filter(video -> !VideoTypeEnum.NONE.equals(video.getType())).collect(Collectors.toList());
     }
 
 }

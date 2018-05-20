@@ -3,7 +3,8 @@ package service.tencent;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import constant.VIPResolverTypeEnum;
+import constant.VideoTypeEnum;
+import constant.VipResolverTypeEnum;
 import model.BaseVideo;
 import model.Episode;
 import org.apache.commons.lang3.StringUtils;
@@ -49,12 +50,10 @@ public class TenSearchVideoServiceImpl implements ISearchVideoService {
                         detail.select("h2 > a > span.type").text());
                 String description = detail.select("div > div.info_item.info_item_desc > span.desc_text").text();
                 String imageUrl = URLUtils.complementUrl(detail.select("a > img").attr("src"),false);
+                VideoTypeEnum type = VideoTypeEnum.typeOf(detail.select("h2 > a > span.type").text());
                 //剧集
-                Elements elements = info.select("div._playlist > div > div > div.result_episode_list.cf > div > a");
-                //body > div.search_container > div.wrapper > div:nth-child(1) > div:nth-child(2) > div._playlist > div > div > div > div:nth-child(15) > a
-                //body > div.search_container > div.wrapper > div:nth-child(1) > div:nth-child(2) > div._playlist > div > div > div > div:nth-child(12) > a
+                // div > h2 > a > span.type
                 List<Episode> episodes = new ArrayList<>();
-                System.out.println("dataId : " + dataId);
                 try {
                     String json = Jsoup.connect(String.format(EPISODE_URL, dataId))
                             .ignoreContentType(true)
@@ -69,16 +68,22 @@ public class TenSearchVideoServiceImpl implements ISearchVideoService {
                     Optional<JsonNode> playList = Optional.ofNullable(rootNode.get("PlaylistItem").get("videoPlayList"));
                     playList.ifPresent(p -> {
                       p.elements().forEachRemaining(jsonNode -> {
-                            episodes.add(new Episode(jsonNode.get("title").asText(), jsonNode.get("playUrl").asText()));
+                            episodes.add(new Episode(null,jsonNode.get("title").asText(), jsonNode.get("playUrl").asText(),null));
                         });
                     });
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 if(episodes.isEmpty()) {
-                    episodes.add(new Episode(name,url));
+                    episodes.add(new Episode(null,name,url,null));
                 }
-                return new BaseVideo(name, url, imageUrl, description,VIPResolverTypeEnum.TENCENT.getDescription(), episodes);
+                return new BaseVideo(name,
+                        url,
+                        imageUrl,
+                        description,
+                        VipResolverTypeEnum.TENCENT.getDescription(),
+                        type,
+                        episodes);
             }).filter(Objects::nonNull).collect(Collectors.toList());
         } catch (IOException e) {
             System.out.println("ten service error " + e.getMessage());

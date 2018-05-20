@@ -14,7 +14,8 @@ import javafx.scene.layout.BorderPane;
 import model.BaseVideo;
 import model.Episode;
 import model.VipResolver;
-import service.ConfigCache;
+import service.ConfigService;
+import service.HistoryService;
 import utils.GUIUtil;
 
 import java.awt.*;
@@ -67,7 +68,7 @@ public class VideoDetailController implements Initializable,IWithValueInit<BaseV
 
     @Override
     public void initData(BaseVideo video) {
-        System.out.println("video : " + video);
+        Optional<Integer> historyIndex = Optional.empty();
         //image
         try {
             Image image = new Image(video.getImageUrl());
@@ -78,6 +79,13 @@ public class VideoDetailController implements Initializable,IWithValueInit<BaseV
         //text
         descriptionText.setText(video.getDescription());
         descriptionText.setWrapText(true);
+//        video.getEpisodes()
+//                .stream()
+//                .map(episode -> HistoryService
+//                        .getInstance()
+//                        .findByNameAndUrl(episode.getName(), episode.getUrl()))
+//                .filter(Objects::nonNull)
+//                .min(Comparator.comparing(Episode::getUpdateTime));
         detailTable.getItems().setAll(video.getEpisodes());
 
         playColumn.setCellFactory(col -> new TableCell<Episode, String>() {
@@ -93,10 +101,10 @@ public class VideoDetailController implements Initializable,IWithValueInit<BaseV
                     GUIUtil.setBtnStyle(detailBtn);
                     this.setGraphic(detailBtn);
                     detailBtn.setOnMouseClicked((me) -> {
-                        Episode episode = this.getTableView().getItems().get(this.getIndex());
-                        System.out.println("解析播放");
                         try {
+                            Episode episode = this.getTableView().getItems().get(this.getIndex());
                             playVideo(episode,video.getFrom());
+                            HistoryService.getInstance().save(episode);
                         } catch (IOException | URISyntaxException e) {
                             e.printStackTrace();
                         }
@@ -108,7 +116,7 @@ public class VideoDetailController implements Initializable,IWithValueInit<BaseV
     }
 
     private void playVideo(Episode episode,String from) throws IOException, URISyntaxException {
-        Optional<VipResolver> vipResolver = ConfigCache.getInstance().get(from);
+        Optional<VipResolver> vipResolver = ConfigService.getInstance().get(from);
         if(vipResolver.isPresent()) {
             Desktop.getDesktop().browse(new URI(vipResolver.get().getUrl() + episode.getUrl()));
         }else {

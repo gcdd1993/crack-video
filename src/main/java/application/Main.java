@@ -9,9 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import service.ConfigCache;
-
-import java.io.IOException;
 
 /**
  *
@@ -88,11 +85,6 @@ public class Main extends Application {
 	 */
 	
 	public static void main(String[] args) {
-		try {
-			ConfigCache.getInstance().init();
-		} catch (IOException e) {
-			System.out.println("config cache init error " + e.getMessage());
-		}
 		launch(args);
 		System.exit(1);
 	}
