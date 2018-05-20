@@ -1,6 +1,7 @@
 package service;
 
 import model.BaseVideo;
+import service.iqiyi.IqiyiSearchVideoServiceImpl;
 import service.tencent.TenSearchVideoServiceImpl;
 import service.youku.YouKuSearchVideoServiceImpl;
 
@@ -22,6 +23,7 @@ public class SearchServiceHandler implements ISearchVideoService {
         //todo
         searchVideoServiceList.add(new TenSearchVideoServiceImpl());
         searchVideoServiceList.add(new YouKuSearchVideoServiceImpl());
+        searchVideoServiceList.add(new IqiyiSearchVideoServiceImpl());
     }
 
     public static SearchServiceHandler getInstance() {

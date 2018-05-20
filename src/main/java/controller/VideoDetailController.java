@@ -56,6 +56,10 @@ public class VideoDetailController implements Initializable,IWithValueInit<BaseV
         GUIUtil.setRandomColor(videoDetailPane);
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         urlFromColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUrl()));
+
+        nameColumn.setCellFactory(col -> new TipTableCell<Episode>());
+        urlFromColumn.setCellFactory(col -> new TipTableCell<Episode>());
+
         nameColumn.prefWidthProperty().bind(detailTable.widthProperty().multiply(0.1));
         urlFromColumn.prefWidthProperty().bind(detailTable.widthProperty().multiply(0.8));
         playColumn.prefWidthProperty().bind(detailTable.widthProperty().multiply(0.1));

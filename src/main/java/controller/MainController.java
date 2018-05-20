@@ -102,13 +102,16 @@ public class MainController implements Initializable {
 		nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
 		descriptionColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getDescription()));
 
+		nameColumn.setCellFactory(col -> new TipTableCell<BaseVideo>());
+		fromColumn.setCellFactory(col -> new TipTableCell<BaseVideo>());
+		descriptionColumn.setCellFactory(col -> new TipTableCell<BaseVideo>());
+
 		showDetailColumn.setCellFactory(col -> new TableCell<BaseVideo, String>() {
 			@Override
 			public void updateItem(String item, boolean empty) {
 				super.updateItem(item, empty);
 				this.setText(null);
 				this.setGraphic(null);
-
 				if (!empty) {
 					JFXButton detailBtn = new JFXButton("GO->");
 					GUIUtil.setBtnStyle(detailBtn);
@@ -154,4 +157,5 @@ public class MainController implements Initializable {
 		searchSpinner.setVisible(isVisible);
 		searchButton.setVisible(!isVisible);
 	}
+
 }

@@ -6,6 +6,8 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -110,6 +112,14 @@ public class GUIUtil {
 
     public static void setBtnStyle(Node  node) {
         node.setStyle("-fx-background-radius: 40;-fx-background-color: " + GUIUtil.getDefaultColor((int) ((Math.random() * 12) % 12)));
+    }
+
+    public static Label createLabelWithTip(String msg) {
+        Label label = new Label(msg);
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText(StringUtil.autoNewLine(msg,20));
+        label.setTooltip(tooltip);
+        return label;
     }
 
 }

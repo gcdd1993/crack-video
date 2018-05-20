@@ -60,6 +60,9 @@ public class SettingController implements Initializable {
         urlCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUrl()));
         urlCol.setCellFactory(TextFieldTableCell.<VipResolver>forTableColumn());
 
+        nameCol.setCellFactory(col -> new TipTableCell<VipResolver>());
+        urlCol.setCellFactory(col -> new TipTableCell<VipResolver>());
+
         checkCol.setCellValueFactory(cellData -> new SimpleBooleanProperty(cellData.getValue().isChecked()));
         checkCol.setCellFactory(col -> new TableCell<VipResolver, Boolean>() {
             @Override
